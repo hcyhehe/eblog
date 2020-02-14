@@ -13,5 +13,18 @@ erp.upload = bg + '/upload'
 
 erp.login = bg + '/login'
 
+erp.categoryList = bg + '/category/list'
+erp.categoryAdd = bg + '/category/add'
+erp.categoryEdit = bg + '/category/edit'
+erp.categoryDel = bg + '/category/del'
+
+erp.tagList = bg + '/tag/list'
+erp.tagAdd = bg + '/tag/add'
+erp.tagEdit = bg + '/tag/edit'
+erp.tagDel = bg + '/tag/del'
+
+erp.anounceInfo = bg + '/anounce/info'
+erp.anounceEdit = bg + '/anounce/edit'
+
 
 export default erp

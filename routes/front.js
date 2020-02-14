@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const check = require('../middlewares/check')
-const front = require('../controllers/front')
+const front = require('../controllers/front/front')
 
 
 router.get('/', front.home)

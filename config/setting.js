@@ -11,5 +11,7 @@ module.exports = {
         password: 'root',    //server
     },
 
+    API_SECRET_KEY: 'eblogVue.2666',
+
     port: '8089',   //端口设置
 }

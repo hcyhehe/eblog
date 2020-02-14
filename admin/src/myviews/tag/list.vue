@@ -11,24 +11,14 @@
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="价格(元)" width="" align="center">
+      <el-table-column label="标签" width="" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.money }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="积分" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.num }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.create_time | t }}</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column v-if="userInfo.token=='admin'" width="230" label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" class="xixi" size="mini" @click="edit(scope.row.id, scope.row.money, scope.row.num, scope.row.sort)">
+          <el-button type="primary" class="xixi" size="mini" @click="edit(scope.row.id, scope.row.name, scope.row.sort)">
             编辑</el-button>
           <el-button type="danger" class="xixi" size="mini" @click="del(scope.row.id)">删除</el-button>          
         </template>
@@ -40,11 +30,8 @@
       :visible.sync="dialogVisible"
       width="40%">
       <el-form ref="form" label-width="50px">
-        <el-form-item label="价格">
-          <el-input v-model="params2.money"></el-input>
-        </el-form-item>
-        <el-form-item label="积分">
-          <el-input v-model="params2.num"></el-input>
+        <el-form-item label="标签">
+          <el-input v-model="params2.name"></el-input>
         </el-form-item>
         <el-form-item label="排序">
           <el-input v-model="params2.sort"></el-input>
@@ -61,11 +48,8 @@
       :visible.sync="dialogVisible2"
       width="40%">
       <el-form ref="form" label-width="50px">
-        <el-form-item label="价格">
-          <el-input v-model="params2.money"></el-input>
-        </el-form-item>
-        <el-form-item label="积分">
-          <el-input v-model="params2.num"></el-input>
+        <el-form-item label="分类">
+          <el-input v-model="params2.name"></el-input>
         </el-form-item>
         <el-form-item label="排序">
           <el-input v-model="params2.sort"></el-input>
@@ -76,21 +60,6 @@
         <el-button type="primary" @click="editSave">确 定</el-button>
       </span>
     </el-dialog>
-
-    <!-- <el-dialog
-      title="1积分所对应的金额"
-      :visible.sync="dialogVisible3"
-      width="40%">
-      <el-form ref="form" label-width="80px">
-        <el-form-item label="金额(元)">
-          <el-input v-model="money"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible3 = false">取 消</el-button>
-        <el-button type="primary" @click="set">确 定</el-button>
-      </span>
-    </el-dialog> -->
 
     <pagination v-show="total>0" :total="total" :page.sync="params.pages" :limit.sync="params.limit" @pagination="getList" />
   </div>
@@ -129,32 +98,27 @@ export default {
       dialogVisible3: false,
       params2:{
         id: '',
-        money: '',
-        num: '',
+        name: '',
         sort: '',
       },
     }
   },
   methods:{
-    add(){      
-      this.params2.money = ''
-      this.params2.num = ''
+    add(){
+      this.params2.name = ''
       this.params2.sort = ''
       this.dialogVisible = true
     },
     addSave(){      
       let that = this
-      if(!judgeNum3(this.params2.money)){
-        return this.$message.warning('价格必须为正数')
-      }
-      if(!judgeNum2(this.params2.num)){
-        return this.$message.warning('积分必须为正整数')
+      if(!this.params2.name){
+        return this.$message.warning('分类不能为空')
       }
       if(!judgeNum2(this.params2.sort)){
         return this.$message.warning('排序必须为正整数')
       }
-      aPost(base.pointAdd, this.params2).then(res=>{
-        console.log('pointAdd', res.data)
+      aPost(base.tagAdd, this.params2).then(res=>{
+        console.log('tagAdd', res.data)
         if(res.data.code==2000000){
           that.$message.success('添加成功')
           that.getList()
@@ -172,8 +136,8 @@ export default {
     },
     getList(){
       let that = this
-      aGet(base.pointList, this.params).then(res=>{
-        console.log('pointList', res.data)
+      aGet(base.tagList, this.params).then(res=>{
+        console.log('tagList', res.data)
         that.list = res.data.data;
         that.total = res.data.count;
         that.listLoading = false;
@@ -182,27 +146,23 @@ export default {
         console.log(err);
       })
     },
-    edit(id, money, num, sort){
+    edit(id, name, sort){
       let that = this      
       this.params2.id = id
-      this.params2.money = money
-      this.params2.num = num
+      this.params2.name = name
       this.params2.sort = sort
       this.dialogVisible2 = true
     },
     editSave(){
       let that = this
-      if(!judgeNum3(this.params2.money)){
-        return this.$message.warning('价格必须为正数')
-      }
-      if(!judgeNum2(this.params2.num)){
-        return this.$message.warning('积分数量必须为正整数')
+      if(!this.params2.name){
+        return this.$message.warning('分类不能为空')
       }
       if(!judgeNum2(this.params2.sort)){
         return this.$message.warning('排序必须为正整数')
       }
-      aPost(base.pointEdit, this.params2).then(res=>{
-        console.log('pointEdit', res.data)
+      aPost(base.tagEdit, this.params2).then(res=>{
+        console.log('tagEdit', res.data)
         if(res.data.code==2000000){
           that.$message.success('编辑成功')
           that.getList()
@@ -216,10 +176,10 @@ export default {
     },
     del(id){
       let that = this
-      that.$confirm('此操作将删除该积分, 是否继续?', '提示', { 
+      that.$confirm('此操作将删除该分类, 是否继续?', '提示', { 
         confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' 
       }).then(() => {
-        aPost(base.pointDel, {id:id}).then(res=>{
+        aPost(base.tagDel, {id:id}).then(res=>{
           if(res.data.code==2000000){
             that.$message.success('操作成功')
             that.getList()

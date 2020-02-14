@@ -60,45 +60,31 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
-    path: '/gift',
+    path: '/article',
     component: Layout,
-    redirect: '/gift/list',
+    redirect: '/article/list',
     meta: {roles: ['admin','editor']},
     children: [
       {
         path: 'list',
-        component: () => import('@/myviews/gift/list'),
-        name: 'giftList',
-        meta: { title: '礼品管理', icon: 'theme', noCache: true }
+        component: () => import('@/myviews/article/list'),
+        name: 'articleList',
+        meta: { title: '文章管理', icon: 'documentation', noCache: true }
       },
       {
         path: 'add',
-        component: () => import('@/myviews/gift/add'),
-        name: 'giftAdd',
-        meta: { title: '添加礼品', icon: '', noCache: true },
+        component: () => import('@/myviews/article/add'),
+        name: 'articleAdd',
+        meta: { title: '添加文章', icon: '', noCache: true },
         hidden: true,
       },
       {
         path: 'edit',
-        component: () => import('@/myviews/gift/edit'),
-        name: 'giftEdit',
-        meta: { title: '编辑礼品', icon: '', noCache: true },
+        component: () => import('@/myviews/article/edit'),
+        name: 'articleEdit',
+        meta: { title: '编辑文章', icon: '', noCache: true },
         hidden: true,
       },
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    meta: {roles: ['admin'], icon: 'wechat', title: '会员管理'},
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/myviews/user/list'),
-        name: 'userList',
-        meta: { title: '所有会员', noCache: true }
-      }
     ]
   },
   {
@@ -111,25 +97,52 @@ export const asyncRouterMap = [
         path: 'info',
         component: () => import('@/myviews/rule/info'),
         name: 'ruleInfo',
-        meta: { title: '奖励规则', icon: 'example', noCache: true }
+        meta: { title: '公告管理', icon: 'example', noCache: true }
       }
     ]
   },
-
   {
-    path: '/point',
+    path: '/category',
     component: Layout,
-    redirect: '/point/list',
+    redirect: '/category/list',
     meta: {roles: ['admin']},
     children: [
       {
         path: 'list',
-        component: () => import('@/myviews/point/list'),
-        name: 'pointList',
-        meta: { title: '积分管理', icon: 'tree', noCache: true }
+        component: () => import('@/myviews/category/list'),
+        name: 'categoryList',
+        meta: { title: '分类管理', icon: 'tree', noCache: true }
       }
     ]
   },
+  {
+    path: '/tag',
+    component: Layout,
+    redirect: '/tag/list',
+    meta: {roles: ['admin']},
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/myviews/tag/list'),
+        name: 'tagList',
+        meta: { title: '标签管理', icon: 'tab', noCache: true }
+      }
+    ]
+  },
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   redirect: '/user/list',
+  //   meta: {roles: ['admin'], icon: 'user', title: '会员管理'},
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/myviews/user/list'),
+  //       name: 'userList',
+  //       meta: { title: '所有会员', noCache: true }
+  //     }
+  //   ]
+  // },
   
   { path: '*', redirect: '/404', hidden: true }
 ]
