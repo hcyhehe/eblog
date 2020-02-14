@@ -39,9 +39,10 @@ app.use('/', router)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  let err = new Error('Not Found');
-  err.status = 404;
-  return res.send({"code": 4040000, "msg": code['4040000']});
+  let err = new Error('Not Found')
+  err.status = 404
+  //return res.send({"code": 4040000, "msg": code['4040000']})
+  return res.render('404')
 })
 
 // error handler

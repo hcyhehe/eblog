@@ -6,6 +6,7 @@ const admin = require('../controllers/admin')
 
 
 router.get('/', front.home)
+router.get('/article', front.article)
 
 
 module.exports = router
