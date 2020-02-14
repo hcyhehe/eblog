@@ -1,0 +1,51 @@
+<!--微信二维码模态框-->
+<div class="modal fade user-select" id="WeChat" tabindex="-1" role="dialog" aria-labelledby="WeChatModalLabel">
+    <div class="modal-dialog" role="document" style="margin-top:120px;max-width:280px;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="WeChatModalLabel" style="cursor:default;">关注公众号</h4>
+        </div>
+        <div class="modal-body" style="text-align:center"> <img src="images/weixin.jpg" alt="" style="cursor:pointer"/> </div>
+        </div>
+    </div>
+</div>
+
+<!--登录注册模态框-->
+<div class="modal fade user-select" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/Admin/Index/login" method="post">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="loginModalLabel">登录</h4>
+                </div>
+                <div class="modal-body">
+                <div class="form-group">
+                    <label for="loginModalUserNmae">用户名</label>
+                    <input type="text" class="form-control" id="loginModalUserNmae" placeholder="请输入用户名" autofocus maxlength="15" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginModalUserPwd">密码</label>
+                    <input type="password" class="form-control" id="loginModalUserPwd" placeholder="请输入密码" maxlength="18" autocomplete="off" required>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--右键菜单列表-->
+<div id="rightClickMenu">
+    <ul class="list-group rightClickMenuList">
+        <li class="list-group-item disabled">欢迎访问JS全栈开发</li>
+        <li class="list-group-item"><span>IP：</span>10.16.48.129</li>
+        <li class="list-group-item"><span>地址：</span>广东省广州市</li>
+        <li class="list-group-item"><span>系统：</span>Windows10 </li>
+        <li class="list-group-item"><span>浏览器：</span>Chrome47</li>
+    </ul>
+</div>
