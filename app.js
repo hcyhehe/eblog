@@ -10,7 +10,8 @@ const http = require('http');
 const cors = require('cors');
 const code = require('./commons/code');
 const app = express();
-const router = require('./routes/index')
+const frontRouter = require('./routes/front')
+const adminRouter = require('./routes/admin')
 const setting = require('./config/setting')
 
 const port = setting.port
@@ -35,7 +36,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());  //跨域模块
 
-app.use('/', router)
+app.use('/', frontRouter)
+app.use('/api', adminRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

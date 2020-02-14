@@ -1,5 +1,7 @@
 node_modules
 log
 upload
-
+admin/node_modules
+admin/dist
+eblog.sql
 
