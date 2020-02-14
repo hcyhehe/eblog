@@ -12,6 +12,7 @@ const code = require('./commons/code');
 const app = express();
 const frontRouter = require('./routes/front')
 const adminRouter = require('./routes/admin')
+const fileRouter = require('./routes/file')
 const setting = require('./config/setting')
 
 const port = setting.port
@@ -38,6 +39,7 @@ app.use(cors());  //跨域模块
 
 app.use('/', frontRouter)
 app.use('/api', adminRouter)
+app.use('/', fileRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

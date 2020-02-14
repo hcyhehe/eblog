@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="请输入礼品名称" v-model.trim="params.name" style="width: 250px;" class="filter-item"/>
+      <el-input placeholder="请输入文章标题" v-model.trim="params.title" style="width: 250px;" class="filter-item"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" @click="addPage">添加</el-button>
     </div>
@@ -12,44 +12,24 @@
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="礼品名" width="" align="center">
+      <el-table-column label="标题" width="" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column label="图片" width="" align="center">
         <template slot-scope="scope">
-          <img class="goodsListImg" :src="scope.row.imgs.split(',')[0]">
+          <img class="goodsListImg" :src="scope.row.img">
         </template>
       </el-table-column>
-      <el-table-column label="积分" width="" align="center">
+      <el-table-column label="标签" width="" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.score }}</span>
+          <span>{{ scope.row.tags }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="原价" width="" align="center">
+      <el-table-column label="浏览数" width="" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.ori_price }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="会员价" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.price }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="折扣" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.discount || '无' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="下划线价" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.un_price }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="运费" width="" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.fare }}</span>
+          <span>{{ scope.row.watch_num }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="" align="center">
@@ -99,7 +79,7 @@ export default {
       params: {
         pages: 1,
         limit: 10,
-        name: '',
+        title: '',
       },
     }
   },
@@ -109,13 +89,12 @@ export default {
       this.getList();
     },
     addPage(){
-      this.$router.push({path:'/gift/add'})
+      this.$router.push({path:'/article/add'})
     },
     getList(){
-      let that = this;
-      this.params.shop_id = this.userInfo.shop_id
-      aGet(base.giftList, this.params).then(res=>{
-        //console.log('goodsList', res.data);
+      let that = this
+      aGet(base.artList, this.params).then(res=>{
+        console.log('artList', res.data)
         that.list = res.data.data;
         that.total = res.data.count;
         that.listLoading = false;
@@ -125,23 +104,23 @@ export default {
       })
     },
     editPage(id){
-      this.$router.push({path:'/gift/edit', query:{id:id} })
+      this.$router.push({path:'/article/edit', query:{id:id} })
     },
     rmPage(id){
-      let that = this;
-      that.$confirm('此操作将删除该礼品, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
-        aPost(base.giftDel, {id:id}).then(res=>{
+      let that = this
+      that.$confirm('此操作将删除该文章, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
+        aPost(base.artDel, {id:id}).then(res=>{
           if(res.data.code==2000000){
-            that.$message.success('操作成功');
-            that.getList();
+            that.$message.success('操作成功')
+            that.getList()
           } else {
-            that.$message.warning(res.data.msg);
+            that.$message.warning(res.data.msg)
           }
         }).catch(err=>{
-          console.log(err);
+          console.log(err)
         })
       }).catch(err=>{
-        console.log(err);
+        console.log(err)
       })
     }
   },

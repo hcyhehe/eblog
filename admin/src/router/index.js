@@ -88,20 +88,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/rule',
-    component: Layout,
-    redirect: '/rule/info',
-    meta: {roles: ['admin']},
-    children: [
-      {
-        path: 'info',
-        component: () => import('@/myviews/rule/info'),
-        name: 'ruleInfo',
-        meta: { title: '公告管理', icon: 'example', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/category',
     component: Layout,
     redirect: '/category/list',
@@ -116,16 +102,16 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/tag',
+    path: '/rule',
     component: Layout,
-    redirect: '/tag/list',
+    redirect: '/rule/info',
     meta: {roles: ['admin']},
     children: [
       {
-        path: 'list',
-        component: () => import('@/myviews/tag/list'),
-        name: 'tagList',
-        meta: { title: '标签管理', icon: 'tab', noCache: true }
+        path: 'info',
+        component: () => import('@/myviews/rule/info'),
+        name: 'ruleInfo',
+        meta: { title: '公告管理', icon: 'example', noCache: true }
       }
     ]
   },

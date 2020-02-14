@@ -14,4 +14,7 @@ module.exports = {
     API_SECRET_KEY: 'eblogVue.2666',
 
     port: '8089',   //端口设置
+
+    domain: 'http://127.0.0.1:8089',
+    //domain: 'https://blog.allstackcoding.com',
 }

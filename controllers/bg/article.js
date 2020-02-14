@@ -5,6 +5,7 @@ const conn = require('../../config/pool')
 
 exports.list = async function (req, res, next) {
     try{
+        let title = req.query.title
         let pages = parseInt(req.query.pages)
         let limit = parseInt(req.query.limit)
         let skip = parseInt(pages - 1) * limit
@@ -12,32 +13,42 @@ exports.list = async function (req, res, next) {
             return res.send({"code": 4000000, "msg": code[4000000] });
         }
 
-        let sql = ' select * from tag where 1 = 1 '
-        let sql2 = ' select count(*) as count from tag where 1 = 1 '
+        let sql = ' select * from article where is_deleted = 1 '
+        let sql2 = ' select count(*) as count from article where is_deleted = 1 '
+
+        if(title){
+            sql += ` and title like "%`+title+`%" `
+            sql2 += ` and title like "%`+title+`%" `
+        }
 
         sql += ` order by sort asc limit `+skip+`,`+limit
-        //console.log(sql)
+        console.log(sql)
         let [list] = await conn.query(sql)
         let countRaw = await conn.query(sql2)
         let count = countRaw[0][0].count
         
         res.send({ "code": 2000000, "msg": code['2000000'], pages:pages, limit:limit, count:count, data:list })
     } catch(e) {
-        console.log(e);
-        res.send({ "code": 5000000, "msg": code['5000000'], data:[] });
+        console.log(e)
+        res.send({ "code": 5000000, "msg": code['5000000'], data:[] })
     }
 }
 
 
 exports.add = async function (req, res, next) {
     try{
-        let name = req.body.name        
+        let title = req.body.title
+        let content = req.body.content
+        let img = req.body.img
+        let tags = req.body.tags
         let sort = req.body.sort || 1
-        if(!name){
+        if(!title || !content){
             return res.send({"code": 4000000, "msg": code[4000000] })
         }
-        let sql = ' insert into tag(name, sort) '+
-                  ' values(\''+name+'\','+sort+') '
+        let now = moment().format('YYYY-MM-DD HH:mm:ss')
+        let id = new Date().getTime()
+        let sql = ' insert into article(id, title, content, img, tags, sort, create_time) '+
+                  ' values(\''+id+'\', \''+title+'\', \''+content+'\', \''+img+'\', \''+tags+'\', '+sort+', \''+now+'\') '
         //console.log(sql)
         await conn.query(sql)
 
@@ -49,15 +60,36 @@ exports.add = async function (req, res, next) {
 }
 
 
+exports.info = async function (req, res, next) {
+    try{
+        let id = req.query.id
+        if(!id){
+            return res.send({"code": 4000000, "msg": code[4000000] })
+        }
+        let sql = ' select * from article where id = '+id
+        let [[raw]] = await conn.query(sql)
+
+        res.send({ "code": 2000000, "msg": code['2000000'], data:raw })
+    } catch(e) {
+        console.log(e)
+        res.send({ "code": 5000000, "msg": code['5000000'], data:{} })
+    }
+}
+
+
 exports.edit = async function (req, res, next) {
     try{
         let id = req.body.id
-        let name = req.body.name        
+        let title = req.body.title
+        let content = req.body.content
+        let img = req.body.img
+        let tags = req.body.tags
         let sort = req.body.sort || 1
-        if(!id || !name){
+        if(!id || !title || !content){
             return res.send({"code": 4000000, "msg": code[4000000] })
         }
-        let sql = ' update tag set name = \''+name+'\', sort = '+sort+' where id = '+id
+        let sql = ' update article set title = \''+title+'\', content = \''+content+'\', img = \''+img+'\', '+
+                  ' tags = \''+tags+'\', sort = '+sort+' where id = '+id
         //console.log(sql)
         await conn.query(sql)
 
@@ -75,7 +107,7 @@ exports.del = async function (req, res, next) {
         if(!id){
             return res.send({"code": 4000000, "msg": code[4000000] })
         }
-        let sql = ' delete from tag where id = '+id
+        let sql = ' update article set is_deleted = 2 where id = '+id
         await conn.query(sql)
 
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} })
