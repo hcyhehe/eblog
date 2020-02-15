@@ -1,5 +1,6 @@
 const moment = require('moment')
 const code = require('../../commons/code')
+const tool = require('../../commons/tool')
 const conn = require('../../config/pool')
 
 
@@ -21,7 +22,7 @@ exports.list = async function (req, res, next) {
             sql2 += ` and title like "%`+title+`%" `
         }
 
-        sql += ` order by sort asc limit `+skip+`,`+limit
+        sql += ` order by create_time desc limit `+skip+`,`+limit
         console.log(sql)
         let [list] = await conn.query(sql)
         let countRaw = await conn.query(sql2)
@@ -38,8 +39,8 @@ exports.list = async function (req, res, next) {
 exports.add = async function (req, res, next) {
     try{
         let title = req.body.title
-        let content = req.body.content
-        let img = req.body.img
+        let content = escape(req.body.content)
+        let img = req.body.img || ''
         let tags = req.body.tags
         let sort = req.body.sort || 1
         if(!title || !content){
@@ -81,8 +82,8 @@ exports.edit = async function (req, res, next) {
     try{
         let id = req.body.id
         let title = req.body.title
-        let content = req.body.content
-        let img = req.body.img
+        let content = escape(req.body.content)
+        let img = req.body.img || ''
         let tags = req.body.tags
         let sort = req.body.sort || 1
         if(!id || !title || !content){

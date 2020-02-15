@@ -690,6 +690,8 @@ color:#FFF;
 	word-wrap: break-word;
 	line-height: 20px;
 	cursor: default;
+	height: 83px;
+    overflow: hidden;
 }
 /*分页*/
 .pagination {

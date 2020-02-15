@@ -7,11 +7,11 @@
     </div>
 
     <el-table v-loading="listLoading" :key="tableKey" :data="list" border fit stripe highlight-current-row style="width: 100%;">
-      <el-table-column label="顺序" width="" align="center">
+      <!-- <el-table-column label="顺序" width="" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.sort }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="标题" width="" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
@@ -19,7 +19,8 @@
       </el-table-column>
       <el-table-column label="图片" width="" align="center">
         <template slot-scope="scope">
-          <img class="goodsListImg" :src="scope.row.img">
+          <img v-if="scope.row.img" class="goodsListImg" :src="scope.row.img">
+          <span v-if="!scope.row.img">无</span>
         </template>
       </el-table-column>
       <el-table-column label="标签" width="" align="center">

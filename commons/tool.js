@@ -115,4 +115,10 @@ exports.randomn = function(n){
     return num
     // Array(n > num ? (n - ('' + num).length +1) : 0).join(0) + num 补位
 }
-  
+
+
+// 去掉所有的html标记
+exports.delHtmlTag = function (str){
+	return str.replace(/<[^>]+>/g, "")
+}
+

@@ -25,9 +25,9 @@
       <el-form-item label="标签">
         <el-input v-model.trim="params.tags" placeholder="请输入标签，用逗号分隔" clearable></el-input>
       </el-form-item>
-      <el-form-item label="顺序">
+      <!-- <el-form-item label="顺序">
         <el-input v-model.trim="params.sort" placeholder="请输入顺序" clearable></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -98,8 +98,10 @@ export default {
           let data = res.data.data
           that.params.title = data.title
           that.params.img = data.img
-          that.fileList.push({url: data.img})
-          that.params.content = data.content
+          if(data.img){
+            that.fileList.push({url: data.img})
+          }
+          that.params.content = unescape(data.content)
           that.params.tags = data.tags
           that.params.sort = data.sort
         }
@@ -114,18 +116,18 @@ export default {
       if(!this.params.title){
         return this.$message.warning('请填写标题')
       }
-      if(!this.params.img){
-        return this.$message.warning('请上传图片')
-      }
+      // if(!this.params.img){
+      //   return this.$message.warning('请上传图片')
+      // }
       if(!this.params.content){
         return this.$message.warning('请填写文章详情')
       }
       if(!this.params.tags){
         return this.$message.warning('请填写标签')
       }
-      if(!judgeNum2(this.params.sort)){
-        return this.$message.warning('顺序必须为正整数')
-      }
+      // if(!judgeNum2(this.params.sort)){
+      //   return this.$message.warning('顺序必须为正整数')
+      // }
       aPost(base.artEdit, that.params).then(res=>{
         if(res.data.code==2000000){
           that.$message.success('提交成功')
