@@ -1,5 +1,8 @@
+const fs = require('fs')
+const path = require('path')
 const moment = require('moment')
 const conn = require('../../config/pool')
+const code = require('../../commons/code')
 const tool = require('../../commons/tool')
 
 
@@ -55,6 +58,23 @@ exports.article = async function (req, res, next) {
             article: raw,
             aside: raw2
         })
+    } catch(e) {
+        console.log(e)
+    }
+}
+
+
+exports.baiduCheck = async function (req, res, next) {
+    try{
+        let url = path.resolve(__dirname, '../../') + req.url;
+        console.log(url)
+        let exist = fs.existsSync(url);
+        if(exist){
+            res.sendFile(url);
+        } else {
+            //console.log(url + ' not exist');
+            res.send({"code": 4000004, "msg": code['4000004'] });
+		}
     } catch(e) {
         console.log(e)
     }
